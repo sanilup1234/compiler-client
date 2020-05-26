@@ -22,8 +22,11 @@ import "ace-builds/src-noconflict/mode-c_cpp";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/theme-twilight";
+import hackerearth from "hackerearth-node"
 import ReactMarkdown from "react-markdown"
 
+//client ID: 3dc2fff1d79d93c41f15acae78e3e8d9dfad5db539a3.api.hackerearth.com
+//client secret : c10cea3bdf9680abb1daf7342ac95edfedc77a50
 export default class SectionTabs extends React.Component {
   constructor(props) {
     super(props);
@@ -49,20 +52,20 @@ useStyles()
   return  makeStyles(styles);
 }
 
-callAPI(req) {
-  fetch("http://52.247.56.134:9000/testAPI",req)
-      .then(res => res.json())
-      .then(res =>  this.setState({ apiResponse:res}))
-      .then(this.setState({stdout:this.state.apiResponse["stdout"]}))
-      .then(this.setState({stderr:this.state.apiResponse["stderr"]}))
-      .then(this.setState({exitCode:this.state.apiResponse["exitCode"]}))
-      .then(this.setState({enable:true}))
+// callAPI(req) {
+//   fetch("http://52.247.56.134:9000/testAPI",req)
+//       .then(res => res.json())
+//       .then(res =>  this.setState({ apiResponse:res}))
+//       .then(this.setState({stdout:this.state.apiResponse["stdout"]}))
+//       .then(this.setState({stderr:this.state.apiResponse["stderr"]}))
+//       .then(this.setState({exitCode:this.state.apiResponse["exitCode"]}))
+//       .then(this.setState({enable:true}))
       
       
 
     
 
-}
+// }
 
 updateCode(value) {
 this.setState({
@@ -72,17 +75,45 @@ this.setState({
 onSubmit()
 {
 this.setState({enable:false});
-const coded=this.state.code
-const language = this.state.lang
-const inp = this.state.input
-const opt={
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-},
-  body: JSON.stringify({code:coded,lang:language,input:inp})
-}
-this.callAPI(opt)
+// const coded=this.state.code
+// const language = this.state.lang
+// const inp = this.state.input
+// const opt={
+//   method: 'POST',
+//   headers: {
+//     'Content-Type': 'application/json'
+// },
+//   body: JSON.stringify({code:coded,lang:language,input:inp})
+// }
+let hackerEarth=new hackerearth(
+  'c10cea3bdf9680abb1daf7342ac95edfedc77a50',  //Your Client Secret Key here this is mandatory
+  ''  //mode sync=1 or async(optional)=0 or null async is by default and preferred for nodeJS
+);
+let config={};
+config.time_limit=1;  //your time limit in integer
+config.memory_limit=323244;  //your memory limit in integer
+config.source=this.state.code;  //your source code for which you want to use hackerEarth api
+config.input=this.state.input;  //input against which you have to test your source code
+if(this.state.lang ==="Python")
+config.language="Py"; //optional choose any one of them or none
+else
+config.language = this.state.lang
+hackerEarth.run(config)
+                    .then(result => {
+                      this.setState({apiResponse:JSON.parse(result)})
+                      console.log(this.state.apiResponse)
+                      if(this.state.apiResponse.run_status["status"]==="AC")
+                      {
+                      this.setState({stdout:this.state.apiResponse.run_status["output"]})
+                        this.setState({exitCode:0})
+                    }
+                      this.setState({stderr:this.state.apiResponse["compile_status"]})
+                    })
+                    .catch(err => {
+                      console.log(err);
+                    });
+//this.callAPI(opt)
+this.setState({enable:true});
 }
 // getNumbers(api) {
 //     if (api) {
@@ -105,7 +136,7 @@ let stderr = this.state.stderr
 if(this.state.exitCode === 0)
 {
   
-  return <h4 style={{color:"green"}}>compilation successfull</h4> 
+  return <h4 style={{color:"green"}}>Compiled Succesfully...</h4> 
 }
 
 return stderr
@@ -283,7 +314,7 @@ this.setState({input: event.target.value});
                       mode="c_cpp"
                       theme={this.state.theme}
                       fontSize={18}
-                      width="100%"
+                      width="set-parent"
                       
                       showPrintMargin={true}
                       showGutter={true}
@@ -318,7 +349,7 @@ this.setState({input: event.target.value});
           value={this.state.input} 
           onChange={this.onInput.bind(this)}
           multiline
-          rows={4}
+          rows={8}
           placeholder="Provide Input here"
           variant="outlined"
         /></div>
@@ -328,12 +359,24 @@ this.setState({input: event.target.value});
                     tabButton: "Output",
                     tabIcon: Dashboard,
                     tabContent: (
-                      <span style={{whiteSpace:"pre-wrap"}}>
-                        <p>
-                        {this.printop()}
-                        </p>
+                      <div style={{whiteSpace:"pre-wrap"}}>
+                      <TextField
+          id="outlined-multiline-static"
+          label="Output"
+          value={this.printop()}
+          width="set-parent"
+          disabled="true"
+          multiline
+          rows={8}
+          
+          variant="outlined"
+        />
+                        
+                        
+                        
                         <br />
-                      </span>
+                      
+                      </div>
                     )
                   },
                   {
