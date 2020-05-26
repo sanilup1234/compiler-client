@@ -15,6 +15,7 @@
     "@testing-library/user-event": "^7.2.1",
     "ace-builds": "^1.4.11",
     "babel-polyfill": "^6.26.0",
+    "bootstrap": "^4.5.0",
     "classnames": "^2.2.6",
     "cls-bluebird": "^2.1.0",
     "gh-pages": "^2.2.0",
@@ -30,7 +31,8 @@
     "reactstrap": "^8.4.1"
   },
   "scripts": {
-    
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
