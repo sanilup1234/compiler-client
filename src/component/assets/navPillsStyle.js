@@ -13,7 +13,7 @@ const navPillsStyle = theme => ({
     paddingLeft: "0",
     marginBottom: "0",
     overflow: "visible !important",
-    lineHeight: "24px",
+    lineHeight: "20px",
     textTransform: "uppercase",
     fontSize: "12px",
     fontWeight: "500",
@@ -56,7 +56,7 @@ const navPillsStyle = theme => ({
   },
   tabIcon: {
     width: "30px",
-    height: "30px",
+    height: "20px",
     display: "block",
     margin: "15px 0 !important",
     "&, & *": {

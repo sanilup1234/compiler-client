@@ -335,7 +335,11 @@ this.setState({input: event.target.value});
             
             <GridItem xs={12} sm={12} md={8} lg={3}>
               <NavPills
-                color="success"
+              horizontal={{
+                tabsGrid: { xs: 12, sm: 4, md: 4 },
+                contentGrid: { xs: 12, sm: 8, md: 8 }
+              }}
+                color="rose"
                 tabs={[
                   {
                     tabButton: "Input",
@@ -344,19 +348,34 @@ this.setState({input: event.target.value});
                       <div>
                       <br />
                       <TextField
-          id="outlined-multiline-static"
-          label="Input"
-          value={this.state.input} 
-          onChange={this.onInput.bind(this)}
-          multiline
-          rows={8}
-          placeholder="Provide Input here"
-          variant="outlined"
-        /></div>
+                       id="outlined-multiline-static"
+                      label="Input"
+                      value={this.state.input} 
+                       onChange={this.onInput.bind(this)}
+                       multiline
+                       rows={5}
+                         placeholder="Provide Input here"
+                        variant="outlined"
+                       />
+                      <br />
+                 
+
+                     
+              </div>
                     )
-                  },
-                  {
-                    tabButton: "Output",
+                  }
+                   
+                ]}
+              />
+               <NavPills
+                  horizontal={{
+                    tabsGrid: { xs: 12, sm: 4, md: 4 },
+                    contentGrid: { xs: 12, sm: 8, md: 8 }
+                  }}
+                      color="info"
+                    tabs={[
+                      {
+                    tabButton: "OUTPUt",
                     tabIcon: Dashboard,
                     tabContent: (
                       <div style={{whiteSpace:"pre-wrap"}}>
@@ -367,31 +386,29 @@ this.setState({input: event.target.value});
           width="set-parent"
           disabled="true"
           multiline
-          rows={8}
+          rows={5}
           
           variant="outlined"
-        />
-                        
-                        
-                        
-                        <br />
-                      
-                      </div>
-                    )
-                  },
-                  {
-                    tabButton: "Compiler Message",
-                    tabIcon: Schedule,
-                    tabContent: (
-                      <span style={{whiteSpace:"pre-wrap",color:"red"}}>
-                        {this.printer()}
-                        <br />
-                      </span>
-                    )
-                  }
-                  
-                ]}
-              />
+        /></div>
+                )  }]} />
+              <NavPills
+                      horizontal={{
+                        tabsGrid: { xs: 12, sm: 4, md: 4 },
+                        contentGrid: { xs: 12, sm: 8, md: 8 }
+                      }}
+                      color="primary"
+                    tabs={[
+                      {
+                        tabButton: "Compiler Message",
+                        tabIcon: Schedule,
+                        tabContent: (
+                          <span style={{whiteSpace:"pre-wrap",color:"red"}}>
+                            {this.printer()}
+                            <br />
+                          </span>
+                        )
+                      }
+                    ]} />
             </GridItem>
         
             {/* <GridItem xs={12} sm={12} md={6}>
