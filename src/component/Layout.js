@@ -41,10 +41,7 @@ export default function Components(props) {
           <GridContainer>
             <GridItem>
               <div className={classes.brand}>
-                <h1 className={classes.title} style={{color:"#e91e63"}}>Learn With Me</h1>
-                <h4 className={classes.subtitle} style={{color:"#00c853"}}>
-                  Welcome GEEKS ..!!
-                </h4>
+               
               </div>
             </GridItem>
           </GridContainer>
