@@ -18,3 +18,47 @@
     font-size: 16px;
     resize: none;
   }
+.makeStyles-cardBody-67{
+    font-size: 18px;
+}
+.header{
+   
+    color:rgb(1, 40, 83);
+    
+    font-size: 20px;
+    text-align: center;
+}
+.header .title{
+    font-size: 30px;
+    font-weight: bold;
+    color:rgba(0, 0, 0, 0.801);
+}
+.input-specification{
+    font-size: 18px;
+   padding:5px;
+    border: 2px solid black;
+}
+.input-specification .title{
+    font-size: 20px;
+    font-weight: bold;
+}
+.output-specification{
+    font-size: 18px;
+    margin-top: 10px;
+    padding:5px;
+     border: 2px solid black;
+ }
+.output-specification .title{
+    font-size: 20px;
+    font-weight: bold;
+}
+.sample-tests{
+    font-size: 18px;
+    margin-top: 10px;
+    padding:10px;
+     border: 2px solid black;
+}
+.sample-tests .title{
+    font-size: 20px;
+   
+}

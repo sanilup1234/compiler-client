@@ -4,12 +4,14 @@ import "bootstrap/dist/css/bootstrap.css";
 ///
 //import App from './App';
 import Components from "./component/Layout"
+//import Compiler from "./component/Temp"
 //import Example from "./component/react_test"
 import * as serviceWorker from './serviceWorker';
 //<App />
 ReactDOM.render(
   <div>
     
+    {/* <Components /> */}
     <Components />
     </div>
   ,

@@ -7,6 +7,7 @@ import Schedule from "@material-ui/icons/ZoomOut";
 import List from "@material-ui/icons/Info";
 import Button from "./component/CustomButtons/Button.js";
 // @material-ui/icons
+import "./style.css"
 import Face from "@material-ui/icons/Assessment";
 import Chat from "@material-ui/icons/QuestionAnswer";
 import Build from "@material-ui/icons/Code";
@@ -17,14 +18,17 @@ import GridItem from "./component/Grid/GridItem.js";
 import CustomTabs from "./component/CustomTabs/CustomTabs.js";
 import NavPills from "./component/NavPills/NavPills"
 import styles from "./assets/tabsStyle.js";
- import {UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem} from "reactstrap"
+ import {UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem,Input} from "reactstrap"
 import "ace-builds/src-noconflict/mode-c_cpp";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/theme-twilight";
+import cheerio from "cheerio"
+ import axios from "axios"
+ import renderHTML from "react-render-html"
 import hackerearth from "hackerearth-node"
 import ReactMarkdown from "react-markdown"
-
+//const siteUrl = "https://guarded-sierra-85031.herokuapp.com/https://codeforces.com/problemset/problem/918/C";
 //client ID: 3dc2fff1d79d93c41f15acae78e3e8d9dfad5db539a3.api.hackerearth.com
 //client secret : c10cea3bdf9680abb1daf7342ac95edfedc77a50
 export default class SectionTabs extends React.Component {
@@ -41,9 +45,11 @@ export default class SectionTabs extends React.Component {
     lang:"C++",
     theme:"monokai",
     input:"",
-    enable:true,
-    mdq : '# This is a Question header\n\n## this is smaller than Question header \n\nAnd this is a paragraph',
-    mde :'# This is an Editorial header\n\n## this is smaller than Editorial header \n\nAnd this is a paragraph'
+    enable:"Submit",
+    mdq : '<div><h1>Loading... Please Wait...</h1></div>',
+    mde :'# This is an Editorial header\n\n## this is smaller than Editorial header \n\nAnd this is a paragraph',
+    url:'',
+    contest_info:""
 };
 
 }
@@ -67,6 +73,17 @@ useStyles()
 
 // }
 
+fetchData = async () => {
+  const result = await axios.get(this.state.url);
+  return cheerio.load(result.data);
+};
+getResults = async () => {
+  const $ = await this.fetchData();
+
+  const full_html = $(".problem-statement").html();
+  //console.log(full_html);
+  this.setState({mdq:full_html})
+ };
 updateCode(value) {
 this.setState({
   code:value,
@@ -74,7 +91,7 @@ this.setState({
 }  
 onSubmit()
 {
-this.setState({enable:false});
+this.setState({enable:"WAIT..."});
 // const coded=this.state.code
 // const language = this.state.lang
 // const inp = this.state.input
@@ -85,8 +102,9 @@ this.setState({enable:false});
 // },
 //   body: JSON.stringify({code:coded,lang:language,input:inp})
 // }
+const secret = "c10cea3bdf9680abb1daf7342ac95edfedc77a50"
 let hackerEarth=new hackerearth(
-  'c10cea3bdf9680abb1daf7342ac95edfedc77a50',  //Your Client Secret Key here this is mandatory
+  secret,  //Your Client Secret Key here this is mandatory
   ''  //mode sync=1 or async(optional)=0 or null async is by default and preferred for nodeJS
 );
 let config={};
@@ -101,7 +119,7 @@ config.language = this.state.lang
 hackerEarth.run(config)
                     .then(result => {
                       this.setState({apiResponse:JSON.parse(result)})
-                      console.log(this.state.apiResponse)
+                     // console.log(this.state.apiResponse)
                       if(this.state.apiResponse.run_status["status"]==="AC")
                       {
                       this.setState({stdout:this.state.apiResponse.run_status["output"]})
@@ -113,7 +131,7 @@ hackerEarth.run(config)
                       console.log(err);
                     });
 //this.callAPI(opt)
-this.setState({enable:true});
+this.setState({enable:"Submit"});
 }
 // getNumbers(api) {
 //     if (api) {
@@ -169,10 +187,21 @@ this.setState({theme:"github"})
 onInput(event) {
 this.setState({input: event.target.value});
 }  
+OnChangeContest(event)
+{
+  this.setState({contest_info: event.target.value});
+  this.setState({url:"https://guarded-sierra-85031.herokuapp.com/https://codeforces.com/problemset/problem/"+event.target.value})
+}
+onclickContest()
+{
+  
+  
+ this.getResults();
+}
   render()
   {
   const classes =this.useStyles();
-  
+
   return (
     
     <div className={classes.section}>
@@ -190,43 +219,12 @@ this.setState({input: event.target.value});
                     tabIcon: Face,
                     tabContent: (
                       <div>
-                         <ReactMarkdown source={this.state.mdq} />
-                      <p className={classes.textCenter}>
-                        I think that’s a responsibility that I have, to push
-                        possibilities, to show people, this is the level that
-                        things could be at. So when you get something that has
-                        the name Kanye West on it, it’s supposed to be pushing
-                        the furthest possibilities. I will be the leader of a
-                        company that ends up being worth billions of dollars,
-                        because I got the answers. I understand culture. I am
-                        the nucleus.
-                        I think that’s a responsibility that I have, to push
-                        possibilities, to show people, this is the level that
-                        things could be at. So when you get something that has
-                        the name Kanye West on it, it’s supposed to be pushing
-                        the furthest possibilities. I will be the leader of a
-                        company that ends up being worth billions of dollars,
-                        because I got the answers. I understand culture. I am
-                        the nucleus.
-                        I think that’s a responsibility that I have, to push
-                        possibilities, to show people, this is the level that
-                        things could be at. So when you get something that has
-                        the name Kanye West on it, it’s supposed to be pushing
-                        the furthest possibilities. I will be the leader of a
-                        company that ends up being worth billions of dollars,
-                        because I got the answers. I understand culture. I am
-                        the nucleus.
-                        I think that’s a responsibility that I have, to push
-                        possibilities, to show people, this is the level that
-                        things could be at. So when you get something that has
-                        the name Kanye West on it, it’s supposed to be pushing
-                        the furthest possibilities. I will be the leader of a
-                        company that ends up being worth billions of dollars,
-                        because I got the answers. I understand culture. I am
-                        the nucleus.
-
-                      </p>
-                      </div>
+                         <Input type="text" value = {this.state.contest_info} onChange={this.OnChangeContest.bind(this)} name="contest" placeholder="Enter Contest ID with problem ID(like 918/C)" />
+                         <Button color="rose" onClick={this.onclickContest.bind(this)}>Get Question</Button>
+                      <div className={classes.textCenter}>
+                         {renderHTML(this.state.mdq)}
+                      
+                      </div></div>
                     )
                   },
                   {
@@ -325,7 +323,7 @@ this.setState({input: event.target.value});
                       editorProps={{ $blockScrolling: true }}
                     />
                     <br />
-                    <Button color="info" onClick={this.onSubmit.bind(this)} disabled={!this.state.enable}>SUBMIT</Button>
+                    <Button color="info" onClick={this.onSubmit.bind(this)}>{this.state.enable}</Button>
                     </div>
                     )
                   }
